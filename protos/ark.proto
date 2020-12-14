@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+enum Command {
+    ADD = 0;
+    MODIFY = 1;
+    APPEND = 2;
+    DELETE = 3;
+    CLEAR = 4;
+}
+
+message Data {
+    string key = 1;
+    bytes value = 2;
+}
+
+message StorageRequest {
+    Command command = 1;
+    Data data = 2;
+}
+
+enum StorageResponse {
+    SUCCESS = 0;
+    FAILURE = 1;
+}
+
