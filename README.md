@@ -1,2 +1,2 @@
 # Ark
-Ark is a distributed key-value storage written in go.
+Ark is a distributed file system written in go.
