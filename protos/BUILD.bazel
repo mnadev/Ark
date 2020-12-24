@@ -1,0 +1,12 @@
+load("@rules_cc//cc:defs.bzl", "cc_proto_library")
+load("@rules_proto//proto:defs.bzl", "proto_library")
+
+cc_proto_library(
+    name = "storage_cc_protos",
+    deps = [":storage_protos"],
+)
+
+proto_library(
+    name = "storage_protos",
+    srcs = ["ark.proto"],
+)
