@@ -20,3 +20,13 @@ cc_grpc_library(
     grpc_only = True,
     deps = [":ark_cc_protos"],
 )
+
+cc_binary(
+    name = "ark_worker",
+    srcs = ["worker.cpp"],
+    defines = ["BAZEL_BUILD"],
+    deps = [
+        ":ark_cc_grpc",
+        "@com_github_grpc_grpc//:grpc++",
+    ],
+)
