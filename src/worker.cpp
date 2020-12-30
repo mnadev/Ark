@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <memory>
 #include <string>
 
@@ -23,17 +24,57 @@ class ArkWorker: public StorageService::Service {
 			Command command = request->command();
 			Data data = request->data();
 
+			std::string file_name = data.file_name();
+			std::string file_content = data.value();
+
 			if (command == Command::ADD) {
-					addFile(data);
+				addFile(file_name, file_content);
+			} else if (command == Command::MODIFY) {
+				modifyFile(file_name, file_content);
+			} else if (command == Command::APPEND) {
+				appendFile(file_name, file_content);
+			} else if (command == Command::DELETE) {
+				deleteFile(file_name);
+			} else if (command == Command::CLEAR) {
+				clearFile(file_name);
+			} else {
+				return Status::CANCELLED;
 			}
 
 			return Status::OK;
     }
 
-    void addFile(Data data) {
-			std::string file_name = data.file_name();
-			std::string file_content = data.value();
-    }
+	private:
+		void addFile(std::string file_name, std::string file_content) {
+			std::ofstream file;
+			file.open(file_name, std::ofstream::out);
+			file << file_content << std::endl;
+			file.close();
+		}
+
+		void appendFile(std::string file_name, std::string file_content) {
+			std::ofstream file;
+			file.open(file_name, std::ofstream::out | std::ofstream::app);
+			file << file_content << std::endl;
+			file.close();
+		}
+
+		void modifyFile(std::string file_name, std::string file_content) {
+			std::ofstream file;
+			file.open(file_name, std::ofstream::out);
+			file << file_content << std::endl;
+			file.close();
+		}
+
+		void clearFile(std::string file_name) {
+			std::ofstream file;
+			file.open(file_name, std::ofstream::out | std::ofstream::trunc);
+			file.close();
+		}
+
+		void deleteFile(std::string file_name) {
+			std::remove(file_name.c_str());
+		}
 };
 
 void run() {
