@@ -1,0 +1,22 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@rules_cc//cc:defs.bzl", "cc_proto_library")
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
+
+proto_library(
+    name = "ark_protos",
+    srcs = ["ark.proto"],
+)
+
+cc_proto_library(
+    name = "ark_cc_protos",
+    deps = [":ark_protos"],
+)
+
+cc_grpc_library(
+    name = "ark_cc_grpc",
+    srcs = [":ark_protos"],
+    grpc_only = True,
+    deps = [":ark_cc_protos"],
+)
