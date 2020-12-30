@@ -29,8 +29,6 @@ class ArkWorker: public StorageService::Service {
 
 			if (command == Command::ADD) {
 				addFile(file_name, file_content);
-			} else if (command == Command::MODIFY) {
-				modifyFile(file_name, file_content);
 			} else if (command == Command::APPEND) {
 				appendFile(file_name, file_content);
 			} else if (command == Command::DELETE) {
@@ -55,13 +53,6 @@ class ArkWorker: public StorageService::Service {
 		void appendFile(std::string file_name, std::string file_content) {
 			std::ofstream file;
 			file.open(file_name, std::ofstream::out | std::ofstream::app);
-			file << file_content << std::endl;
-			file.close();
-		}
-
-		void modifyFile(std::string file_name, std::string file_content) {
-			std::ofstream file;
-			file.open(file_name, std::ofstream::out);
 			file << file_content << std::endl;
 			file.close();
 		}
