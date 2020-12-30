@@ -18,20 +18,21 @@ using ark::StorageService;
 using ark::StorageStatus;
 
 class ArkWorker: public StorageService::Service {
+	public:
     Status requestStorage(ServerContext* context, const StorageRequest* request, StorageResponse* response) {
-        Command command = request->command();
-        Data data = request->data();
+			Command command = request->command();
+			Data data = request->data();
 
-        if (command == Command::ADD) {
-            addFile(data);
-        }
+			if (command == Command::ADD) {
+					addFile(data);
+			}
 
-        return Status::OK;
+			return Status::OK;
     }
 
     void addFile(Data data) {
-        std::string file_name = data.file_name();
-        std::string file_content = data.value();
+			std::string file_name = data.file_name();
+			std::string file_content = data.value();
     }
 };
 
@@ -48,6 +49,6 @@ void run() {
 }
 
 int main() {
-    run();
-    return 0;
-};
+	run();
+	return 0;
+}
