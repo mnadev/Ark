@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include <sstream>
 #include <string>
 
 #include <grpcpp/grpcpp.h>
@@ -35,10 +36,14 @@ class ArkWorker: public StorageService::Service {
 				deleteFile(file_name);
 			} else if (command == Command::CLEAR) {
 				clearFile(file_name);
+			} else if (command == Command::READ) {
+				std::string read_file_content = readFile(file_name);
+				response->set_file_content(read_file_content);
 			} else {
+				response->set_status(StorageStatus::FAILURE);
 				return Status::CANCELLED;
 			}
-
+			response->set_status(StorageStatus::SUCCESS);
 			return Status::OK;
     }
 
@@ -65,6 +70,19 @@ class ArkWorker: public StorageService::Service {
 
 		void deleteFile(std::string file_name) {
 			std::remove(file_name.c_str());
+		}
+
+		std::string readFile(std::string file_name) {
+			std::stringstream buffer;
+			std::ifstream file(file_name);
+			if(file.is_open()) {
+				std::string line;
+				while(std::getline(file, line)) {
+					buffer << line << "\n";
+				}
+			}
+			file.close();
+			return buffer.str();
 		}
 };
 

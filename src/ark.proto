@@ -8,6 +8,7 @@ enum Command {
 	APPEND = 1;
 	DELETE = 2;
 	CLEAR = 3;
+	READ = 4;
 }
 
 message Data {
@@ -27,6 +28,7 @@ enum StorageStatus {
 
 message StorageResponse {
 	StorageStatus status = 1;
+	string file_content = 2;
 }
 
 service StorageService {
